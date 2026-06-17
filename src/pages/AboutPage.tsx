@@ -1,4 +1,11 @@
 import { useAppContext } from "../context/AppContext";
+import { useInView } from "../hooks/useInView";
+
+function RevealSection({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const { ref, inView } = useInView(0.1);
+  const cls = `reveal ${inView ? "reveal--visible" : ""} ${delay > 0 ? `reveal-delay-${delay}` : ""} ${className}`;
+  return <div ref={ref} className={cls}>{children}</div>;
+}
 
 function AboutPage() {
   const { siteName, image2 } = useAppContext();
@@ -16,64 +23,33 @@ function AboutPage() {
         </div>
 
         <div className="about-grid">
-          <div className="about-card card-glass">
-            <div className="card-icon">🍳</div>
-            <h3>What is Qorqer?</h3>
-            <p>
-              Qorqer is a traditional Ethiopian breakfast snack, especially
-              popular among the youth. It's a unique street food made with
-              simple ingredients, deep-fried to golden perfection, and enjoyed
-              with a cup of traditional Ethiopian tea or coffee.
-            </p>
-          </div>
-
-          <div className="about-card card-glass">
-            <div className="card-icon">📖</div>
-            <h3>Our Story</h3>
-            <p>
-              Adiss Qorqer started as a small street-side stall, serving the
-              bustling morning crowds. What began as a humble venture quickly
-              grew into a beloved brand known for quality, taste, and that
-              unmistakable authentic flavor.
-            </p>
-          </div>
-
-          <div className="about-card card-glass">
-            <div className="card-icon">🌍</div>
-            <h3>Cultural Roots</h3>
-            <p>
-              Deeply rooted in Ethiopian culinary tradition, Qorqer represents
-              more than just food — it's a cultural experience. Every bite tells
-              a story of community, resourcefulness, and the vibrant spirit of
-              Ethiopian youth.
-            </p>
-          </div>
-
-          <div className="about-card card-glass">
-            <div className="card-icon">❤️</div>
-            <h3>Made with Love</h3>
-            <p>
-              Despite the jokes about "chinese oil and plastic dough," every
-              batch of Qorqer is made with dedication. It's the love and
-              laughter shared over a plate of Qorqer that makes it truly
-              special.
-            </p>
-          </div>
+          {[
+            { icon: "🍳", title: "What is Qorqer?", text: "Qorqer is a traditional Ethiopian breakfast snack, especially popular among the youth. It's a unique street food made with simple ingredients, deep-fried to golden perfection, and enjoyed with a cup of traditional Ethiopian tea or coffee." },
+            { icon: "📖", title: "Our Story", text: "Adiss Qorqer started as a small street-side stall, serving the bustling morning crowds. What began as a humble venture quickly grew into a beloved brand known for quality, taste, and that unmistakable authentic flavor." },
+            { icon: "🌍", title: "Cultural Roots", text: "Deeply rooted in Ethiopian culinary tradition, Qorqer represents more than just food — it's a cultural experience. Every bite tells a story of community, resourcefulness, and the vibrant spirit of Ethiopian youth." },
+            { icon: "❤️", title: "Made with Love", text: "Despite the jokes about \"chinese oil and plastic dough,\" every batch of Qorqer is made with dedication. It's the love and laughter shared over a plate of Qorqer that makes it truly special." },
+          ].map((card, i) => (
+            <RevealSection key={i} delay={i + 1} className="about-card card-glass">
+              <div className="card-icon">{card.icon}</div>
+              <h3>{card.title}</h3>
+              <p>{card.text}</p>
+            </RevealSection>
+          ))}
         </div>
 
         <div className="about-image-section">
-          <div className="about-image-wrapper">
+          <RevealSection className="about-image-wrapper" delay={3}>
             <div className="about-image-glow" />
             <img src={image2} alt="Qorqer" className="about-feature-img" />
-          </div>
-          <div className="about-quote card-glass">
+          </RevealSection>
+          <RevealSection className="about-quote card-glass" delay={4}>
             <span className="quote-mark">"</span>
             <p>
               Qorqer is not just food — it's a feeling. It's the laughter of
               friends, the warmth of morning, and the taste of home.
             </p>
             <span className="quote-author">— Addis Qorqer</span>
-          </div>
+          </RevealSection>
         </div>
       </div>
     </section>

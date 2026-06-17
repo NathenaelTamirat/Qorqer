@@ -1,11 +1,14 @@
 import { useState } from "react";
+import { useInView } from "../hooks/useInView";
+
+function RevealSection({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const { ref, inView } = useInView(0.1);
+  const cls = `reveal ${inView ? "reveal--visible" : ""} ${delay > 0 ? `reveal-delay-${delay}` : ""} ${className}`;
+  return <div ref={ref} className={cls}>{children}</div>;
+}
 
 function ContactPage() {
-  const [formState, setFormState] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [formState, setFormState] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -20,13 +23,11 @@ function ContactPage() {
         <div className="page-header">
           <span className="section-badge contact-badge">Contact</span>
           <h1 className="page-title">Get in Touch</h1>
-          <p className="page-subtitle">
-            We'd love to hear from you
-          </p>
+          <p className="page-subtitle">We'd love to hear from you</p>
         </div>
 
         <div className="contact-grid">
-          <div className="contact-info card-glass">
+          <RevealSection className="contact-info card-glass" delay={1}>
             <h3>Let's Talk Qorqer</h3>
             <p>
               Got a question, a story, or just craving some Qorqer? Drop us a
@@ -34,37 +35,29 @@ function ContactPage() {
             </p>
 
             <div className="contact-details">
-              <div className="contact-item">
-                <span className="contact-item-icon">📍</span>
-                <div>
-                  <strong>Location</strong>
-                  <p>Addis Ababa, Ethiopia</p>
+              {[
+                { icon: "📍", label: "Location", value: "Addis Ababa, Ethiopia" },
+                { icon: "📧", label: "Email", value: "hello@adissqorqer.com" },
+                { icon: "📱", label: "Phone", value: "+251 91 123 4567" },
+              ].map((item) => (
+                <div key={item.label} className="contact-item">
+                  <span className="contact-item-icon">{item.icon}</span>
+                  <div>
+                    <strong>{item.label}</strong>
+                    <p>{item.value}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="contact-item">
-                <span className="contact-item-icon">📧</span>
-                <div>
-                  <strong>Email</strong>
-                  <p>hello@adissqorqer.com</p>
-                </div>
-              </div>
-              <div className="contact-item">
-                <span className="contact-item-icon">📱</span>
-                <div>
-                  <strong>Phone</strong>
-                  <p>+251 91 123 4567</p>
-                </div>
-              </div>
+              ))}
             </div>
 
             <div className="contact-social">
-              <span className="social-pill">Instagram</span>
-              <span className="social-pill">TikTok</span>
-              <span className="social-pill">Telegram</span>
+              {["Instagram", "TikTok", "Telegram"].map((s) => (
+                <span key={s} className="social-pill">{s}</span>
+              ))}
             </div>
-          </div>
+          </RevealSection>
 
-          <div className="contact-form-wrapper card-glass">
+          <RevealSection className="contact-form-wrapper card-glass" delay={2}>
             {submitted ? (
               <div className="contact-success">
                 <span className="success-icon">✓</span>
@@ -74,7 +67,7 @@ function ContactPage() {
                   possible. In the meantime, go grab some Qorqer!
                 </p>
                 <button
-                  className="btn-primary"
+                  className="btn-more"
                   onClick={() => {
                     setSubmitted(false);
                     setFormState({ name: "", email: "", message: "" });
@@ -93,9 +86,7 @@ function ContactPage() {
                     type="text"
                     placeholder="Enter your name"
                     value={formState.name}
-                    onChange={(e) =>
-                      setFormState({ ...formState, name: e.target.value })
-                    }
+                    onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                     required
                   />
                 </div>
@@ -106,9 +97,7 @@ function ContactPage() {
                     type="email"
                     placeholder="Enter your email"
                     value={formState.email}
-                    onChange={(e) =>
-                      setFormState({ ...formState, email: e.target.value })
-                    }
+                    onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                     required
                   />
                 </div>
@@ -119,19 +108,16 @@ function ContactPage() {
                     placeholder="Tell us about your Qorqer experience..."
                     rows={5}
                     value={formState.message}
-                    onChange={(e) =>
-                      setFormState({ ...formState, message: e.target.value })
-                    }
+                    onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                     required
                   />
                 </div>
-                <button type="submit" className="btn-primary btn-submit">
-                  Send Message
-                  <span className="btn-arrow">→</span>
+                <button type="submit" className="btn-more btn-submit">
+                  Send Message →
                 </button>
               </form>
             )}
-          </div>
+          </RevealSection>
         </div>
       </div>
     </section>

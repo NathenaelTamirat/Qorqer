@@ -11,17 +11,31 @@ import "./App.css";
 function PageRenderer() {
   const { currentPage } = useAppContext();
 
-  const key = currentPage;
-
   switch (currentPage) {
     case "about":
-      return <AboutPage key={key} />;
+      return (
+        <div key="about" className="page-wrapper">
+          <AboutPage />
+        </div>
+      );
     case "culture":
-      return <CulturePage key={key} />;
+      return (
+        <div key="culture" className="page-wrapper">
+          <CulturePage />
+        </div>
+      );
     case "contact":
-      return <ContactPage key={key} />;
+      return (
+        <div key="contact" className="page-wrapper">
+          <ContactPage />
+        </div>
+      );
     default:
-      return <HomePage key={key} />;
+      return (
+        <div key="home" className="page-wrapper">
+          <HomePage />
+        </div>
+      );
   }
 }
 
@@ -29,6 +43,9 @@ function App() {
   return (
     <AppProvider>
       <div className="app">
+        <div className="bg-orb bg-orb--1" />
+        <div className="bg-orb bg-orb--2" />
+        <div className="bg-orb bg-orb--3" />
         <Header />
         <main className="main-content">
           <PageRenderer />
