@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAppContext } from "../context/AppContext";
+import { TextScramble, Typewriter } from "../components/TextEffects";
 
 function HomePage() {
   const { siteName, siteTagline, image1, image2 } = useAppContext();
@@ -18,12 +19,19 @@ function HomePage() {
         <span className="particle p4">✦</span>
         <span className="particle p5">●</span>
         <span className="particle p6">◆</span>
+        <span className="particle p7">✦</span>
+        <span className="particle p8">◇</span>
       </div>
       <div className="hero-inner">
         <h2>
-          Welcome to <span className="highlight-green">{siteName}</span>
+          Welcome to{" "}
+          <span className="highlight-green">
+            <TextScramble text={siteName} delay={0.2} />
+          </span>
         </h2>
-        <p className="tagline">{siteTagline}</p>
+        <p className="tagline">
+          <Typewriter text={siteTagline} speed={45} />
+        </p>
 
         <div className="hero-image-wrapper">
           <div className="hero-image-glow" />

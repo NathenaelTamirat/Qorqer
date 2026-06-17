@@ -1,10 +1,10 @@
 import { useAppContext } from "../context/AppContext";
-import { useInView } from "../hooks/useInView";
+import { useRevealTilt } from "../hooks/useRevealTilt";
 
-function RevealSection({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
-  const { ref, inView } = useInView(0.1);
-  const cls = `reveal ${inView ? "reveal--visible" : ""} ${delay > 0 ? `reveal-delay-${delay}` : ""} ${className}`;
-  return <div ref={ref} className={cls}>{children}</div>;
+function RevealCard({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const { ref, inView, onMouseMove, onMouseLeave } = useRevealTilt(0.1);
+  const cls = `reveal ${inView ? "reveal--visible" : ""} ${delay > 0 ? `reveal-delay-${delay}` : ""}`;
+  return <div ref={ref} className={cls} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>{children}</div>;
 }
 
 const facts = [
@@ -21,6 +21,11 @@ function CulturePage() {
 
   return (
     <section className="page-section culture-page">
+      <div className="emoji-rain">
+        <span>🍳</span><span>🥟</span><span>☕</span><span>🌅</span>
+        <span>🎉</span><span>🤝</span><span>💰</span><span>🏙️</span>
+        <span>❤️</span><span>✨</span>
+      </div>
       <div className="page-section-bg" />
       <div className="page-container">
         <div className="page-header">
@@ -31,28 +36,32 @@ function CulturePage() {
           </p>
         </div>
 
-        <RevealSection className="culture-showcase card-glass">
-          <div className="culture-showcase-img-wrapper">
-            <div className="culture-img-glow" />
-            <img src={image2} alt="Qorqer culture" className="culture-showcase-img" />
+        <RevealCard>
+          <div className="culture-showcase card-glass">
+            <div className="culture-showcase-img-wrapper">
+              <div className="culture-img-glow" />
+              <img src={image2} alt="Qorqer culture" className="culture-showcase-img" />
+            </div>
+            <div className="culture-showcase-text">
+              <h3>More Than Just a Snack</h3>
+              <p>
+                In the bustling streets of Ethiopia, Qorqer represents the energy
+                and spirit of a new generation. It's woven into the fabric of
+                daily life — from early morning rushes to late-night cravings.
+              </p>
+            </div>
           </div>
-          <div className="culture-showcase-text">
-            <h3>More Than Just a Snack</h3>
-            <p>
-              In the bustling streets of Ethiopia, Qorqer represents the energy
-              and spirit of a new generation. It's woven into the fabric of
-              daily life — from early morning rushes to late-night cravings.
-            </p>
-          </div>
-        </RevealSection>
+        </RevealCard>
 
         <div className="culture-grid">
           {facts.map((fact, i) => (
-            <RevealSection key={i} delay={i + 1} className="culture-fact-card card-glass">
-              <span className="fact-icon">{fact.icon}</span>
-              <h4>{fact.title}</h4>
-              <p>{fact.desc}</p>
-            </RevealSection>
+            <RevealCard key={i} delay={i + 1}>
+              <div className="culture-fact-card card-glass">
+                <span className="fact-icon">{fact.icon}</span>
+                <h4>{fact.title}</h4>
+                <p>{fact.desc}</p>
+              </div>
+            </RevealCard>
           ))}
         </div>
       </div>
