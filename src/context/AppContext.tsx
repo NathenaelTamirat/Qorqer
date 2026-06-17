@@ -23,11 +23,11 @@ export const pageContent: Record<string, PageContent> = {
     subtitle: "Celebrating youngesters ethiopian breakfast snack",
   },
   about: {
-    title: "About Qorqer",
+    title: "About Qoqer",
     subtitle: "The story behind Ethiopia's beloved street snack",
   },
   culture: {
-    title: "Qorqer Culture",
+    title: "Qoqer Culture",
     subtitle: "A taste of Ethiopian youth and tradition",
   },
   contact: {

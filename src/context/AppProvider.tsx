@@ -5,10 +5,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [currentPage, setCurrentPage] = useState("home");
 
   const value = {
-    siteName: "Adiss Qorqer",
+    siteName: "Adiss Qoqer",
     siteTagline: "Celebrating youngesters ethiopian breakfast snack",
-    image1: "/qorqer 1.png",
-    image2: "/qorqer 2.png",
+    image1: "/qoqer 1.png",
+    image2: "/qoqer 2.png",
     currentPage,
     pages: pageContent,
     setCurrentPage,
