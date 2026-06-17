@@ -78,9 +78,22 @@ function HomePage() {
           className="btn-more"
           onClick={() => setShowMore(!showMore)}
           variants={fadeUp}
-          whileHover={{ scale: 1.04, y: -3 }}
-          whileTap={{ scale: 0.97 }}
+          whileHover={{ scale: 1.05, y: -4 }}
+          whileTap={{ scale: 0.95 }}
+          animate={{ boxShadow: [
+            "0 4px 20px rgba(0, 154, 68, 0.3)",
+            "0 4px 40px rgba(0, 154, 68, 0.6), 0 0 60px rgba(0, 154, 68, 0.2)",
+            "0 4px 20px rgba(0, 154, 68, 0.3)",
+          ]}}
+          transition={{ boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" } }}
         >
+          <motion.span
+            animate={{ x: [0, 4, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            style={{ display: "inline-block" }}
+          >
+            {showMore ? "↑" : "→"}
+          </motion.span>{" "}
           {showMore ? "Show Less" : "Learn More"}
         </motion.button>
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useAppContext } from "../context/AppContext";
 
 const cardVariants = {
@@ -30,11 +30,12 @@ const statVariants = {
 
 function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
   const [val, setVal] = useState(0);
-  const started = useRef(false);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true });
 
   useEffect(() => {
-    if (started.current) return;
-    started.current = true;
+    if (!inView) return;
+    setVal(0);
     let frame = 0;
     const total = 60;
     const interval = setInterval(() => {
@@ -43,9 +44,9 @@ function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
       if (frame >= total) { clearInterval(interval); setVal(to); }
     }, 25);
     return () => clearInterval(interval);
-  }, [to]);
+  }, [to, inView]);
 
-  return <span className="stat-number">{val}{suffix}</span>;
+  return <span ref={ref} className="stat-number">{val}{suffix}</span>;
 }
 
 const cards = [
